@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anshika Kumari — AI/ML &amp; Data Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ========================================================
+     SHARED THEME PALETTES 
+     ======================================================== */
+  :root {
+    --bg: #120E1A;
+    --bg-raised: #1A1528;
+    --surface: #221B35;
+    --line: #33294E;
+    --text: #F5EEF8;
+    --text-dim: #A396B8;
+    --accent-primary: #FF8FB1;   /* Blush Rose */
+    --accent-secondary: #C8B6FF; /* Soft Lavender */
+    --accent-tertiary: #80ED99;  /* Pastel Mint */
+    --grid-line: rgba(200, 182, 255, 0.25);
+    --spotlight: rgba(255, 143, 177, 0.08);
+    --nav-bg: rgba(18, 14, 26, 0.85);
+    
+    --mono: 'IBM Plex Mono', monospace;
+    --display: 'Space Grotesk', sans-serif;
+    --body: 'Inter', sans-serif;
+    --mouse-x: 50vw;
+    --mouse-y: 50vh;
+  }
+
+  [data-theme="light"] {
+    --bg: #FAF5F7;
+    --bg-raised: #F0E6EC;
+    --surface: #FFFFFF;
+    --line: #E2D0DA;
+    --text: #2D1E28;
+    --text-dim: #7A6270;
+    --accent-primary: #E05680; 
+    --accent-secondary: #8E6CEF; 
+    --accent-tertiary: #2EC4B6; 
+    --grid-line: rgba(142, 108, 239, 0.18);
+    --spotlight: rgba(224, 86, 128, 0.08);
+    --nav-bg: rgba(250, 245, 247, 0.85);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background: var(--bg); color: var(--text); font-family: var(--body);
+    line-height: 1.6; overflow-x: hidden; position: relative;
+    transition: background-color 0.5s ease, color 0.5s ease;
+  }
+
+  /* CURSOR GLOW BACKGROUND */
+  .grid-background {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none;
+    background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(650px circle at var(--mouse-x) var(--mouse-y), rgba(0,0,0,1) 0%, rgba(0,0,0,0.12) 60%, transparent 100%);
+    -webkit-mask-image: radial-gradient(650px circle at var(--mouse-x) var(--mouse-y), rgba(0,0,0,1) 0%, rgba(0,0,0,0.1) 50%, transparent 100%);
+  }
+  .ambient-spotlight {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none;
+    background: radial-gradient(550px circle at var(--mouse-x) var(--mouse-y), var(--spotlight), transparent 70%);
+  }
+
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 32px; position: relative; z-index: 2;}
+  ::selection{background: var(--accent-primary); color: #FFF;}
+
+  /* ---------- NAV ---------- */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--nav-bg);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);transition:all .5s ease;}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;}
+  .logo{font-family:var(--mono);font-size:14px;color:var(--accent-primary);font-weight:600;}
+  .nav-right{display:flex;align-items:center;gap:28px;}
+  .navlinks{display:flex;gap:28px;font-family:var(--mono);font-size:13px;color:var(--text-dim);}
+  .navlinks a:hover{color:var(--accent-primary);}
+  @media(max-width:680px){.navlinks{display:none;}}
+
+  .theme-toggle{background:var(--bg-raised);border:1px solid var(--line);color:var(--text);padding:6px 12px;border-radius:20px;cursor:pointer;font-size:14px;transition:all .25s;}
+  .theme-toggle:hover{border-color:var(--accent-primary);transform:scale(1.05);}
+
+  /* ---------- HERO ---------- */
+  header.hero{padding:160px 0 80px;}
+  .hero-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 50px; align-items: center; }
+  @media(max-width: 860px) { .hero-grid { grid-template-columns: 1fr; gap: 30px;} }
+
+  .fade-in-up { opacity: 0; transform: translateY(20px); animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+  .delay-1 { animation-delay: 0.1s; } .delay-2 { animation-delay: 0.2s; } .delay-3 { animation-delay: 0.3s; }
+  @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+
+  /* LIVE TELEMETRY PILL */
+  .telemetry-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--surface); border: 1px solid var(--line);
+    padding: 6px 14px; border-radius: 20px;
+    font-family: var(--mono); font-size: 11px; color: var(--text-dim);
+    margin-bottom: 18px; width: fit-content;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  .telemetry-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-tertiary); transition: background-color 0.4s ease;}
+  .telemetry-text b { color: var(--text); font-weight: 500; }
+
+  h1{font-family:var(--display); font-weight:700; font-size:clamp(44px,6.5vw,72px); line-height:1.02; letter-spacing:-1px;}
+  h1 span{background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;}
+  
+  .lede{max-width:540px; margin-top:20px; color:var(--text-dim); font-size:16.5px; line-height: 1.65;}
+  .lede b { color: var(--text); font-weight: 600;}
+
+  .hero-cta{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap;}
+  .btn{font-family:var(--mono);font-size:13px;padding:14px 26px;border-radius:10px;border:1px solid var(--line);transition:all .25s cubic-bezier(0.16,1,0.3,1); display:inline-flex; align-items:center; gap:8px;}
+  .btn-primary{background:var(--accent-primary);color:#FFF;border-color:var(--accent-primary);font-weight:600;box-shadow:0 4px 20px rgba(255,143,177,0.3);}
+  .btn-primary:hover{background:#ff759f;transform:translateY(-2px);box-shadow:0 6px 28px rgba(255,143,177,0.5);}
+  .btn-ghost{color:var(--text);background:var(--bg-raised);}
+  .btn-ghost:hover{border-color:var(--accent-secondary);color:var(--accent-secondary);transform:translateY(-2px);}
+
+  /* ========================================================
+     PICTURE CONCEPT: THE FROSTED NEURAL NODE
+     ======================================================== */
+  .node-container { justify-self: center; position: relative; width: 280px; height: 360px; }
+
+  .liquid-ring {
+    position: absolute; inset: -3px; border-radius: 36px; z-index: 0;
+    background: linear-gradient(60deg, var(--accent-primary), var(--accent-secondary), var(--accent-tertiary), var(--accent-primary));
+    background-size: 300% 300%;
+    animation: liquidSpin 8s ease infinite; opacity: 0.85;
+  }
+  @keyframes liquidSpin { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+
+  .node-inner {
+    position: relative; z-index: 1; width: 100%; height: 100%;
+    background: var(--surface); border-radius: 34px; overflow: hidden;
+    border: 3px solid var(--bg);
+  }
+
+  .node-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+
+  .glass-badge {
+    position: absolute; bottom: 12px; left: 12px; right: 12px;
+    background: rgba(18, 14, 26, 0.65);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 12px 16px; border-radius: 20px;
+    display: flex; justify-content: space-between; align-items: center;
+    transition: all 0.4s ease; z-index: 3;
+  }
+  [data-theme="light"] .glass-badge { background: rgba(255, 255, 255, 0.75); }
+
+  .glass-left b { font-family: var(--mono); font-size: 11px; color: var(--text); display: block;}
+  .glass-left span { font-family: var(--mono); font-size: 10px; color: var(--accent-tertiary); }
+  .status-pill { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-tertiary); box-shadow: 0 0 10px var(--accent-tertiary);}
+
+  .hello-bubble {
+    position: absolute; top: 20px; right: 20px;
+    background: var(--surface); border: 1px solid var(--accent-primary);
+    color: var(--accent-primary); font-family: var(--mono); font-size: 11px; font-weight: 600;
+    padding: 6px 12px; border-radius: 20px 20px 4px 20px;
+    opacity: 0; transform: translateY(10px) scale(0.9);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); z-index: 4;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  }
+
+  .node-container:hover .node-img { transform: scale(1.06); }
+  .node-container:hover .glass-badge { transform: translateY(60px); opacity: 0; }
+  .node-container:hover .hello-bubble { opacity: 1; transform: translateY(0) scale(1); }
+
+  /* ---------- QUICK SPECS DOCK ---------- */
+  .specs-bar {
+    background: var(--bg-raised); border: 1px solid var(--line); border-radius: 12px; padding: 20px 28px;
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;
+    font-family: var(--mono); font-size: 12px;
+  }
+  .spec-item span { color: var(--text-dim); display: block; font-size: 11px;}
+  .spec-item b { color: var(--text); font-weight: 500; font-size: 13px;}
+
+  /* ---------- THE CORE THESIS ---------- */
+  section{padding:90px 0; border-bottom: 1px solid var(--line);}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:40px;}
+  .sec-tag{font-family:var(--mono);font-size:12px;color:var(--accent-secondary);letter-spacing:1.5px;text-transform:uppercase;font-weight:600;}
+  .sec-title{font-family:var(--display);font-size:clamp(24px,3vw,32px);font-weight:600;}
+  .sec-rule{flex:1;height:1px;background:var(--line);}
+
+  .triad-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  @media(max-width: 800px) { .triad-grid { grid-template-columns: 1fr; } }
+
+  .triad-card { background: var(--bg-raised); border: 1px solid var(--line); border-radius: 16px; padding: 28px; transition: border-color 0.3s ease; }
+  .triad-card:hover { border-color: var(--accent-secondary); }
+  .triad-card h4 { font-family: var(--display); font-size: 18px; color: var(--text); margin: 12px 0 8px;}
+  .triad-card p { font-size: 14px; color: var(--text-dim); line-height: 1.6; }
+  .t-num { font-family: var(--mono); font-size: 12px; color: var(--accent-primary); font-weight: 600;}
+
+  /* ---------- LAUNCHPADS (ROUTING STATION) ---------- */
+  .launch-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 20px;}
+  @media(max-width: 700px) { .launch-grid { grid-template-columns: 1fr; } }
+
+  .portal-card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 32px;
+    display: flex; flex-direction: column; justify-content: space-between; gap: 24px; transition: all 0.3s ease;
+  }
+  .portal-card:hover { border-color: var(--accent-primary); transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,0.15);}
+  .portal-card h3 { font-family: var(--display); font-size: 22px; color: var(--text); }
+  .portal-card p { font-size: 14.5px; color: var(--text-dim); margin-top: 6px;}
+  
+  .go-link { font-family: var(--mono); font-size: 13px; color: var(--accent-primary); font-weight: 600; display: inline-flex; align-items: center; gap: 6px;}
+  .portal-card:hover .go-link { gap: 10px; }
+
+  /* ========================================================
+     META-RAG PROMPT BAR (MOVED TO BOTTOM)
+     ======================================================== */
+  .rag-bottom-wrapper {
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+    max-width: 680px; margin: 0 auto;
+  }
+  
+  .rag-container {
+    margin-top: 24px; width: 100%;
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 16px; padding: 16px 20px;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.18);
+    transition: border-color 0.3s ease;
+    text-align: left;
+  }
+  .rag-container:focus-within { border-color: var(--accent-primary); }
+
+  .rag-input-box {
+    width: 100%; background: transparent; border: none; outline: none;
+    font-family: var(--mono); font-size: 13.5px; color: var(--text);
+    padding: 6px 0;
+  }
+  .rag-input-box::placeholder { color: var(--text-dim); }
+
+  .rag-chips { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--line); }
+  .rag-chip {
+    font-family: var(--mono); font-size: 12px; color: var(--accent-secondary);
+    background: var(--bg-raised); border: 1px solid rgba(200, 182, 255, 0.15);
+    padding: 8px 16px; border-radius: 20px; cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .rag-chip:hover { background: var(--accent-primary); color: #FFF; border-color: var(--accent-primary); transform: scale(1.04); }
+
+  footer{padding:90px 0 50px; border-top: none;}
+  .contact-title{font-family:var(--display);font-size:clamp(28px,4vw,42px);font-weight:700;margin-bottom:16px;}
+  .contact-sub{color:var(--text-dim);max-width:480px;margin-bottom:32px;}
+  .contact-links{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:60px;}
+  .clink{font-family:var(--mono);font-size:13px;padding:12px 18px;border:1px solid var(--line);border-radius:8px;background: var(--surface); transition:all .2s;}
+  .clink:hover{border-color:var(--accent-primary);color:var(--accent-primary);transform:translateY(-2px);}
+  .foot-bottom{font-family:var(--mono);font-size:12px;color:var(--text-dim);display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:24px;flex-wrap:wrap;gap:10px;}
+
+  .reveal{opacity:0;transform:translateY(24px);transition:all .7s cubic-bezier(0.16,1,0.3,1);}
+  .reveal.in{opacity:1;transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<div class="ambient-spotlight"></div>
+<div class="grid-background"></div>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="index.html">anshika.dev</a>
+    <div class="nav-right">
+      <div class="navlinks">
+        <a href="about.html">About</a>
+        <a href="skills.html">Stack</a>
+        <a href="projects.html">Projects</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <button class="theme-toggle" id="themeBtn" aria-label="Toggle Theme">
+        <span id="themeIcon">🌸</span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      
+      <div class="hero-content">
+        <!-- LIVE TELEMETRY PILL -->
+        <div class="telemetry-pill fade-in-up delay-1">
+          <span class="telemetry-dot" id="tDot"></span>
+          <span class="telemetry-text" id="tText">Status: <b>Online</b> — Refactoring vector schemas</span>
+        </div>
+
+        <h1 class="fade-in-up delay-2">Anshika <span>Kumari</span></h1>
+        
+        <p class="lede fade-in-up delay-3">
+          I build the engineering conduits that keep AI grounded in reality. Specializing in <b>zero-hallucination RAG architectures</b>, custom Computer Vision models, and snappy web frontends.
+        </p>
+
+        <div class="hero-cta fade-in-up delay-3">
+          <a class="btn btn-primary" href="projects.html">View System Architectures</a>
+          <a class="btn btn-ghost" href="about.html">Read My Story</a>
+        </div>
+      </div>
+
+      <!-- THE FROSTED NEURAL NODE AVATAR -->
+      <div class="node-container fade-in-up delay-2">
+        <div class="liquid-ring"></div>
+        <div class="node-inner">
+          <div class="hello-bubble">Hi there! 🌸</div>
+          <img class="node-img" src="https://github.com/anshikakumarii.png" alt="Anshika Kumari" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80'">
+          <div class="glass-badge">
+            <div class="glass-left">
+              <b>ANSHIKA.DAT</b>
+              <span>status: verified_human</span>
+            </div>
+            <div class="status-pill"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</header>
+
+<!-- QUICK SPECS BAR -->
+<div class="wrap reveal">
+  <div class="specs-bar">
+    <div class="spec-item"><span>CURRENT FOCUS</span><b>Dense/Sparse Hybrid RAG</b></div>
+    <div class="spec-item"><span>CAMPUS FOOTPRINT</span><b>Placement Coord (100+ students)</b></div>
+    <div class="spec-item"><span>HARDWARE RIG</span><b>MacBook Air // OnePlus Android</b></div>
+    <div class="spec-item"><span>FUEL</span><b>Iced Coffee &amp; Pritam</b></div>
+  </div>
+</div>
+
+<!-- THE ENGINEERING TRIAD -->
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-tag">01 — Core Thesis</span><div class="sec-rule"></div></div>
+    <div class="triad-grid reveal">
+      <div class="triad-card">
+        <span class="t-num">01 // RETRIEVAL</span>
+        <h4>Anti-Hallucination</h4>
+        <p>An LLM is only as smart as its index. I engineer strict two-stage dense/sparse retrieval pipelines enforced with Pydantic validation schemas so models don't guess.</p>
+      </div>
+      <div class="triad-card">
+        <span class="t-num">02 // VISION</span>
+        <h4>Pragmatic Models</h4>
+        <p>Whether training YOLOv8 to spot diseased crop leaves or structuring agricultural telemetry, I focus on lightweight models that actually run stably on edge devices.</p>
+      </div>
+      <div class="triad-card">
+        <span class="t-num">03 // PRODUCT</span>
+        <h4>The 80% Rule</h4>
+        <p>A machine learning model is only 20% of a software product. The remaining 80% is database stability, fast auth flows, and warm frontends people enjoy using.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NAVIGATION PORTALS -->
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-tag">02 — Directory Hub</span><div class="sec-rule"></div></div>
+    <div class="launch-grid reveal">
+      <div class="portal-card">
+        <div>
+          <span style="font-family:var(--mono); font-size:11px; color:var(--accent-secondary)">// PORTAL_01</span>
+          <h3>The Developer Toolkit</h3>
+          <p>Inspect my 5-tier Bento taxonomy covering Python, Cross-Encoders, ChromaDB, React.js, and C memory discipline.</p>
+        </div>
+        <a class="go-link" href="skills.html">Inspect Stack [skills.html] →</a>
+      </div>
+      <div class="portal-card">
+        <div>
+          <span style="font-family:var(--mono); font-size:11px; color:var(--accent-secondary)">// PORTAL_02</span>
+          <h3>The Human Behind the Code</h3>
+          <p>Read about my academic track at MUJ, my campus finance footprint, the night sky, and core Bollywood playlists.</p>
+        </div>
+        <a class="go-link" href="about.html">Open Bio [about.html] →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEW SECTION AT THE BOTTOM: PING THE INDEX -->
+<section style="border-bottom: none;">
+  <div class="wrap reveal">
+    <div class="rag-bottom-wrapper">
+      <span style="font-family:var(--mono); font-size:12px; color:var(--accent-secondary); letter-spacing:1.5px; text-transform:uppercase; font-weight:600; margin-bottom:8px;">// PING THE INDEX</span>
+      <h2 style="font-family:var(--display); font-size:30px; font-weight:700; color:var(--text);">Ask my latent space.</h2>
+      <p style="color:var(--text-dim); font-size:15px; margin-top:4px;">In a rush? Query my index deterministically right here.</p>
+      
+      <div class="rag-container">
+        <input type="text" class="rag-input-box" id="ragInput" placeholder="Select a curated prompt below..." readonly>
+        <div class="rag-chips">
+          <span class="rag-chip" onclick="askRag('music')">[ "What is on your playlist?" ]</span>
+          <span class="rag-chip" onclick="askRag('mindset')">[ "What is your mindset while building?" ]</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap reveal">
+    <div class="contact-title">Let's build something.</div>
+    <p class="contact-sub">Looking for AI/ML or Data Engineering internships. Reach out — I reply fast.</p>
+    <div class="contact-links">
+      <a class="clink" href="mailto:anshikakumarii2004@gmail.com">✉ Email Me</a>
+      <a class="clink" href="https://linkedin.com" target="_blank">in LinkedIn</a>
+      <a class="clink" href="https://github.com/anshikakumarii" target="_blank">⌥ GitHub</a>
+    </div>
+    <div class="foot-bottom"><span>© 2026 Anshika Kumari</span><span>System Status: Online.</span></div>
+  </div>
+</footer>
+
+<script>
+  // Shared Theme Switcher
+  const themeBtn = document.getElementById('themeBtn');
+  const themeIcon = document.getElementById('themeIcon');
+  const root = document.documentElement;
+
+  const savedTheme = localStorage.getItem('portfolio-theme') || 'dark';
+  if (savedTheme === 'light') {
+    root.setAttribute('data-theme', 'light');
+    themeIcon.textContent = '🌙';
+  }
+
+  themeBtn.addEventListener('click', () => {
+    const current = root.getAttribute('data-theme');
+    if (current === 'light') {
+      root.removeAttribute('data-theme');
+      themeIcon.textContent = '🌸';
+      localStorage.setItem('portfolio-theme', 'dark');
+    } else {
+      root.setAttribute('data-theme', 'light');
+      themeIcon.textContent = '🌙';
+      localStorage.setItem('portfolio-theme', 'light');
+    }
+  });
+
+  // Cursor Glow Tracker
+  window.addEventListener('mousemove', (e) => {
+    root.style.setProperty('--mouse-x', `${e.clientX}px`);
+    root.style.setProperty('--mouse-y', `${e.clientY}px`);
+  });
+
+  // Reveal Animation
+  const els = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  els.forEach(el => io.observe(el));
+
+  // LIVE TELEMETRY CYCLER
+  const telemetryStates = [
+    { color: '#80ED99', text: 'Status: <b>Online</b> — Refactoring vector schemas' },
+    { color: '#C8B6FF', text: 'Status: <b>Deep Work</b> — Training YOLOv8 weights' },
+    { color: '#FF8FB1', text: 'Status: <b>Idle</b> — Listening to Bollywood bangers' }
+  ];
+  let tIndex = 0;
+  setInterval(() => {
+    tIndex = (tIndex + 1) % telemetryStates.length;
+    document.getElementById('tDot').style.backgroundColor = telemetryStates[tIndex].color;
+    document.getElementById('tText').innerHTML = telemetryStates[tIndex].text;
+  }, 4000);
+
+  // BOTTOM META-RAG TYPING ENGINE (ONLY 2 QUESTIONS LEFT)
+  const ragResponses = {
+    music: 'Core Bollywood through and through—any era, any mood, any day. Blasting everything from cozy 90s romance tracks to modern Pritam bangers.',
+    mindset: 'Solving actual human problems. My goal is never just to run a Jupyter Notebook—it is to take powerful AI models and build the clean data pipelines, safety checks, and friendly web interfaces required to make them genuinely helpful.'
+  };
+  let typeTimer;
+
+  function askRag(topic) {
+    const inputEl = document.getElementById('ragInput');
+    const answer = ragResponses[topic];
+    clearTimeout(typeTimer);
+    inputEl.value = '';
+    
+    let charIndex = 0;
+    function typeChar() {
+      if (charIndex < answer.length) {
+        inputEl.value += answer.charAt(charIndex);
+        charIndex++;
+        typeTimer = setTimeout(typeChar, 18);
+      }
+    }
+    typeChar();
+  }
+</script>
+
+</body>
+</html>

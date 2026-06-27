@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Anshika — Human &amp; Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* SHARED THEME PALETTE */
+  :root {
+    --bg: #120E1A;
+    --bg-raised: #1A1528;
+    --surface: #221B35;
+    --line: #33294E;
+    --text: #F5EEF8;
+    --text-dim: #A396B8;
+    --accent-primary: #FF8FB1; /* Blush Rose */
+    --accent-secondary: #C8B6FF; /* Soft Lavender */
+    --accent-tertiary: #80ED99; /* Pastel Mint */
+    --grid-line: rgba(200, 182, 255, 0.25);
+    --spotlight: rgba(255, 143, 177, 0.08);
+    --nav-bg: rgba(18, 14, 26, 0.85);
+    
+    --mono: 'IBM Plex Mono', monospace;
+    --display: 'Space Grotesk', sans-serif;
+    --body: 'Inter', sans-serif;
+    --mouse-x: 50vw;
+    --mouse-y: 50vh;
+  }
+
+  [data-theme="light"] {
+    --bg: #FAF5F7;
+    --bg-raised: #F0E6EC;
+    --surface: #FFFFFF;
+    --line: #E2D0DA;
+    --text: #2D1E28;
+    --text-dim: #7A6270;
+    --accent-primary: #E05680; 
+    --accent-secondary: #8E6CEF; 
+    --accent-tertiary: #2EC4B6; 
+    --grid-line: rgba(142, 108, 239, 0.18);
+    --spotlight: rgba(224, 86, 128, 0.08);
+    --nav-bg: rgba(250, 245, 247, 0.85);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background: var(--bg); color: var(--text); font-family: var(--body);
+    line-height: 1.6; overflow-x: hidden; position: relative;
+    transition: background-color 0.5s ease, color 0.5s ease;
+  }
+
+  /* CURSOR GLOW BACKGROUND */
+  .grid-background {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none;
+    background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(650px circle at var(--mouse-x) var(--mouse-y), rgba(0,0,0,1) 0%, rgba(0,0,0,0.12) 60%, transparent 100%);
+    -webkit-mask-image: radial-gradient(650px circle at var(--mouse-x) var(--mouse-y), rgba(0,0,0,1) 0%, rgba(0,0,0,0.1) 50%, transparent 100%);
+  }
+  .ambient-spotlight {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none;
+    background: radial-gradient(550px circle at var(--mouse-x) var(--mouse-y), var(--spotlight), transparent 70%);
+  }
+
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 32px; position: relative; z-index: 2;}
+  ::selection{background: var(--accent-primary); color: #FFF;}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--nav-bg);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);transition:all .5s ease;}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;}
+  .logo{font-family:var(--mono);font-size:14px;color:var(--accent-primary);font-weight:600;}
+  .nav-right{display:flex;align-items:center;gap:28px;}
+  .navlinks{display:flex;gap:28px;font-family:var(--mono);font-size:13px;color:var(--text-dim);}
+  .navlinks a:hover, .navlinks a.active{color:var(--accent-primary);}
+  @media(max-width:680px){.navlinks{display:none;}}
+
+  .theme-toggle{background:var(--bg-raised);border:1px solid var(--line);color:var(--text);padding:6px 12px;border-radius:20px;cursor:pointer;font-size:14px;transition:all .25s;}
+  .theme-toggle:hover{border-color:var(--accent-primary);transform:scale(1.05);}
+
+  /* SCAFFOLDING */
+  header.page-header{padding:150px 0 60px; border-bottom: 1px solid var(--line);}
+  section{padding:80px 0; border-bottom:1px solid var(--line); transition:border-color .5s;}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:36px;}
+  .sec-tag{font-family:var(--mono);font-size:12px;color:var(--accent-secondary);letter-spacing:1.5px;text-transform:uppercase;font-weight:600;}
+  .sec-title{font-family:var(--display);font-size:clamp(24px,3vw,32px);font-weight:600;}
+  .sec-rule{flex:1;height:1px;background:var(--line);}
+
+  /* CUTE PURE-CSS ORBITING PLANET HERO */
+  .hero-flex { display: flex; justify-content: space-between; align-items: center; gap: 40px; flex-wrap: wrap;}
+  .planet-container { width: 140px; height: 140px; position: relative; display: flex; align-items: center; justify-content: center;}
+  
+  .planet-body {
+    width: 70px; height: 70px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    box-shadow: inset -8px -8px 20px rgba(0,0,0,0.3), 0 0 25px rgba(255,143,177,0.4);
+    position: relative; z-index: 2;
+  }
+  
+  .planet-ring {
+    position: absolute; width: 130px; height: 40px;
+    border: 3px solid var(--accent-tertiary);
+    border-radius: 50%;
+    transform: rotate(-25deg);
+    animation: ringFloat 6s ease-in-out infinite alternate;
+    box-shadow: 0 0 12px var(--accent-tertiary);
+  }
+  @keyframes ringFloat {
+    0% { transform: rotate(-25deg) scale(0.95); }
+    100% { transform: rotate(-15deg) scale(1.05); }
+  }
+
+  h1{font-family:var(--display); font-size:clamp(36px,5vw,58px); font-weight:700; line-height:1.1; margin-bottom: 12px;}
+  h1 span{color: var(--accent-primary);}
+  .sub-lede{font-size:18px; color:var(--text-dim); max-width: 650px;}
+
+  /* ACADEMIC & TECH CARDS */
+  .edu-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px; margin-bottom: 40px;}
+  @media(max-width:760px){.edu-grid{grid-template-columns:1fr;}}
+  
+  .card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+    padding: 28px; transition: all 0.3s ease; position: relative; overflow: hidden;
+  }
+  .card:hover { border-color: var(--accent-secondary); transform: translateY(-3px); }
+  .card-title { font-family: var(--display); font-size: 19px; font-weight: 600; color: var(--text); }
+  .card-sub { color: var(--text-dim); font-size: 14.5px; margin-top: 4px; }
+  .card-badge { font-family: var(--mono); font-size: 12px; color: var(--accent-primary); margin-top: 14px; display: inline-block;}
+
+  /* HOBBIES / OFFLINE MODE GRID */
+  .latent-intro { font-size: 16px; color: var(--text-dim); max-width: 700px; margin-bottom: 32px;}
+  .latent-intro b { color: var(--text); }
+
+  .hobby-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  @media(max-width:700px){.hobby-grid{grid-template-columns:1fr;}}
+
+  .hobby-card {
+    background: var(--bg-raised); border: 1px solid var(--line); border-radius: 14px;
+    padding: 26px; display: flex; flex-direction: column; justify-content: space-between;
+  }
+  
+  .hobby-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;}
+  
+  /* CUTE AUDIO EQUALIZER */
+  .equalizer { display: flex; gap: 3.5px; align-items: flex-end; height: 18px; }
+  .bar {
+    width: 3px; background: var(--accent-primary); border-radius: 2px;
+    animation: bounceBar 0.8s ease-in-out infinite alternate;
+  }
+  .bar:nth-child(1) { height: 60%; animation-delay: 0.1s; }
+  .bar:nth-child(2) { height: 100%; animation-delay: 0.4s; }
+  .bar:nth-child(3) { height: 30%; animation-delay: 0.2s; }
+  .bar:nth-child(4) { height: 80%; animation-delay: 0.5s; }
+  
+  @keyframes bounceBar { 0% { height: 15%; } 100% { height: 100%; } }
+
+  /* SPOTIFY PILL BUTTON */
+  .spotify-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text);
+    background: rgba(255, 143, 177, 0.12);
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1px solid var(--accent-primary);
+    transition: all 0.25s ease;
+    width: fit-content;
+  }
+  .spotify-btn:hover {
+    background: var(--accent-primary);
+    color: #FFF;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 143, 177, 0.4);
+  }
+
+  /* CUTE MINI PALETTE SWATCHES */
+  .swatches { display: flex; gap: 6px; }
+  .dot { width: 12px; height: 12px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); }
+
+  .hobby-card h4 { font-family: var(--display); font-size: 18px; color: var(--text); margin-bottom: 8px; display: flex; align-items: center; gap: 8px;}
+  .hobby-card p { font-size: 14px; color: var(--text-dim); line-height: 1.55; }
+
+  /* CAMPUS LIFE BOX */
+  .terminal-box {
+    background: var(--bg-raised); border: 1px solid var(--line); border-radius: 12px;
+    padding: 24px; font-family: var(--body); font-size: 14px;
+  }
+  .term-row { display: flex; gap: 16px; margin-bottom: 16px; align-items: baseline;}
+  .term-row:last-child { margin-bottom: 0; }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-tertiary); display: inline-block; box-shadow: 0 0 8px var(--accent-tertiary); flex-shrink: 0; position: relative; top: 2px;}
+  .term-label { font-family: var(--mono); font-size: 12px; color: var(--accent-secondary); min-width: 120px; }
+  .term-desc { color: var(--text-dim); }
+  .term-desc b { color: var(--text); font-weight: 600;}
+
+  footer{padding:80px 0 40px; text-align: center; font-family: var(--mono); font-size: 12px; color: var(--text-dim);}
+  footer a { color: var(--accent-primary); text-decoration: underline;}
+
+  .reveal{opacity:0;transform:translateY(24px);transition:all .7s cubic-bezier(0.16,1,0.3,1);}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ambient-spotlight"></div>
+<div class="grid-background"></div>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="index.html">anshika.dev</a>
+    <div class="nav-right">
+      <div class="navlinks">
+        <a href="about.html" class="active">About</a>
+        <a href="skills.html">Stack</a>
+        <a href="projects.html">Projects</a>
+        <a href="index.html#contact">Contact</a>
+      </div>
+      <button class="theme-toggle" id="themeBtn" aria-label="Toggle Theme">
+        <span id="themeIcon">🌸</span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<header class="page-header">
+  <div class="wrap">
+    <div class="hero-flex reveal">
+      <div>
+        <div style="font-family:var(--mono); color:var(--accent-secondary); font-size:13px; margin-bottom:10px;">// GETTING TO KNOW ME</div>
+        <h1>Curious mind. <span>Builder at heart.</span></h1>
+        <p class="sub-lede">Hi, I'm Anshika! I love teaching computers how to understand messy data—and building snappy web apps that put that data to work for real people.</p>
+      </div>
+
+      <div class="planet-container">
+        <div class="planet-ring"></div>
+        <div class="planet-body"></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-tag">01 — The Student Track</span><div class="sec-rule"></div></div>
+    
+    <div class="edu-grid reveal">
+      <div class="card">
+        <div class="card-title">Manipal University Jaipur</div>
+        <div class="card-sub">B.Tech in Computer Science (AI &amp; Machine Learning)</div>
+        <p style="color:var(--text-dim); font-size:14px; margin-top:12px;">Learning the heavy math behind artificial intelligence, but spending most of my free time actually trying to build things with it.</p>
+        <span class="card-badge">▸ CGPA: 8.12 / 10.0 (Sem 5) · Class of 2027</span>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Mody School, Sikar</div>
+        <div class="card-sub">Senior Secondary (CBSE) — Physics, Chem, Math</div>
+        <p style="color:var(--text-dim); font-size:14px; margin-top:12px;">Where my love for calculus, fresh notebooks, and over-analyzing logic puzzles officially started.</p>
+        <span class="card-badge" style="color:var(--accent-secondary)">▸ Score: 91.8% (2022)</span>
+      </div>
+    </div>
+
+    <div class="reveal" style="background:var(--surface); border:1px solid var(--line); padding:24px; border-radius:12px; margin-bottom: 24px;">
+      <span style="font-family:var(--mono); font-size:12px; color:var(--accent-primary); display:block; margin-bottom:8px;">// WHAT I'M BUILDING</span>
+      <p style="color:var(--text-dim); font-size:15px;">
+        My work leans heavily into tech that genuinely helps people. Recently, I built <strong>Agri-Synergy</strong> (a smart systems approach to agriculture combining AI and IoT) and integrated custom object detection models into <strong>KrishiMitr</strong> to instantly diagnose crop diseases. I'm also developing <strong>ReVogue</strong>, a sustainable multi-vendor thrift store platform. I love bridging the gap between deep technical pipelines and friendly, modern interfaces.
+      </p>
+    </div>
+
+    <div class="reveal" style="background:var(--surface); border:1px solid var(--line); padding:24px; border-radius:12px;">
+      <span style="font-family:var(--mono); font-size:12px; color:var(--accent-primary); display:block; margin-bottom:8px;">// MY TAKE ON DEVELOPMENT</span>
+      <p style="color:var(--text-dim); font-size:15px;">
+        My biggest takeaway from uni so far? <strong>An AI model is only 20% of a good software product.</strong> The other 80% is making sure the data is clean, the AI isn't making things up, and the interface it lives inside actually feels fast, friendly, and enjoyable for a human to click around in.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- HOBBIES -->
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-tag">02 — Offline Mode</span><div class="sec-rule"></div></div>
+    
+    <p class="latent-intro reveal">
+      I love technology, but I don't live inside a code editor. <b>When my laptop is shut, you'll usually find me caught up in one of these four rabbit holes:</b>
+    </p>
+
+    <div class="hobby-grid reveal">
+      
+      <!-- SPACE -->
+      <div class="hobby-card">
+        <div class="hobby-top">
+          <span style="font-family:var(--mono); font-size:11px; color:var(--accent-secondary)">01 // SPACE</span>
+          <span style="color:var(--accent-primary); letter-spacing:3px;">✧✦✧</span>
+        </div>
+        <div>
+          <h4>The Night Sky &amp; Cosmos</h4>
+          <p>I am fully guilty of falling down 2 AM rabbit holes just marveling at the cosmos. To me, space is endlessly full of quiet wonders—it’s the ultimate reminder that no matter how big a problem feels, there is always something much bigger and more magical out there.</p>
+        </div>
+      </div>
+
+      <!-- MUSIC WITH SPOTIFY LINK -->
+      <div class="hobby-card">
+        <div class="hobby-top">
+          <span style="font-family:var(--mono); font-size:11px; color:var(--accent-secondary)">02 // TUNES</span>
+          <div class="equalizer" title="Currently Playing">
+            <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+          </div>
+        </div>
+        <div>
+          <h4>Core Bollywood Fan</h4>
+          <p>I just love Bollywood Hindi songs—anytime, any day. Whether I am commuting, hanging out, or just winding down, my headphones are perpetually playing a mix of everything. From classic oldies to timeless 90s melodies and brand new hits, Bollywood music is just my absolute go-to.</p>
+          <a class="spotify-btn" href="https://open.spotify.com/playlist/0iugRdmUFpQWYYWH0UZtmi?si=pu0tixHhQ1aj7OAaZsuCfA&pi=51AP89-ZR0e9D" target="_blank" rel="noopener noreferrer">
+            <span>🎧 Listen to my Spotify rotation →</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- PAINTING -->
+      <div class="hobby-card">
+        <div class="hobby-top">
+          <span style="font-family:var(--mono); font-size:11px; color:var(--accent-secondary)">03 // CANVAS</span>
+          <div class="swatches">
+            <div class="dot" style="background:#FF8FB1"></div>
+            <div class="dot" style="background:#C8B6FF"></div>
+            <div class="dot" style="background:#80ED99"></div>
+          </div>
+        </div>
+        <div>
+          <h4>Analog Painting</h4>
+          <p>Long before I learned web design, painting on physical canvas taught me visual balance, color theory, and knowing when to leave empty space alone. It’s my favorite way to reset my eyes.</p>
+        </div>
+      </div>
+
+      <!-- TRAVEL -->
+      <div class="hobby-card">
+        <div class="hobby-top">
+          <span style="font-family:var(--mono); font-size:11px; color:var(--accent-secondary)">04 // TRANSIT</span>
+          <span style="font-family:var(--mono); color:var(--accent-tertiary); font-size:13px;">✈ DETOURS</span>
+        </div>
+        <div>
+          <h4>Trains, Planes &amp; Cities</h4>
+          <p>I didn’t just build my travel app <i>Tourly</i> for a class grade—I genuinely love the chaotic energy of train stations, window seats, and wandering around unfamiliar cities without a strict map.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-tag">03 — On Campus</span><div class="sec-rule"></div></div>
+    
+    <div class="terminal-box reveal">
+      <div class="term-row">
+        <span class="status-dot"></span>
+        <span class="term-label">[ COMMUNITY ]</span>
+        <span class="term-desc"><b>Treasurer @ MUJ ACM SIGAI Chapter</b> (Apr 2025 – Present)<br>Managing our club's ₹50k+ budget. I help organize student hackathons, book guest speakers, and make sure our technical workshops actually have decent snacks.</span>
+      </div>
+      <hr style="border:0; border-top:1px dashed var(--line); margin: 16px 0;">
+      <div class="term-row">
+        <span class="status-dot"></span>
+        <span class="term-label">[ LEADERSHIP ]</span>
+        <span class="term-desc"><b>Student Placement Coordinator</b> (Sept 2025 – Present)<br>Coordinating placement drives for 100+ of my CS classmates. Basically acting as the friendly middle-man between stressed students and visiting tech recruiters.</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+<!-- THE LAB: WIP SECTION -->
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-tag">04 — The Lab: WIP</span><div class="sec-rule"></div></div>
+    
+    <p class="latent-intro reveal">
+      I’m currently mapping out a few new systems in my head. These aren't quite ready for deployment, but they’re officially in the <b>brainstorming pipeline:</b>
+    </p>
+
+    <div class="bento-grid reveal">
+      
+      <div class="bento-card span-2">
+        <div class="card-top">
+          <span class="card-label">// CONCEPT_01</span>
+          <div class="card-title">AI Skin Health Companion</div>
+          <p class="card-desc">Having personally dealt with persistent skin issues, I often found it hard to tell whether my skin was actually improving or just changing day to day. This inspired me to build an AI-powered computer vision solution that tracks skin health over time through image analysis, helping users document progress and identify meaningful trends.</p>
+        </div>
+        <span class="card-badge">Status: Research Phase 🧪</span>
+      </div>
+
+      <div class="bento-card">
+        <div class="card-top">
+          <span class="card-label">// CONCEPT_02</span>
+          <div class="card-title">SkillTrail</div>
+          <p class="card-desc">Resumes tell what you’ve done—SkillTrail proves what you can do. An AI-driven platform that tracks, verifies, and highlights real skills through practical assessments and personalized growth paths.</p>
+        </div>
+        <span class="card-badge">Status: Wireframing 🖋️</span>
+      </div>
+
+      <div class="bento-card span-2">
+        <div class="card-top">
+          <span class="card-label">// CONCEPT_03</span>
+          <div class="card-title">ReVogue</div>
+          <p class="card-desc">My multi-vendor platform for the sustainable thrift market in India. Still refining the logic on how to best connect local thrift stores with eco-conscious buyers.</p>
+        </div>
+        <span class="card-badge">Status: Iterating 👗</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Bento Grid for Lab */
+  .bento-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 20px;}
+  @media(max-width: 860px) { .bento-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media(max-width: 600px) { .bento-grid { grid-template-columns: 1fr; } }
+  .bento-card { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 30px; transition: all 0.3s ease; }
+  .span-2 { grid-column: span 2; }
+  @media(max-width: 860px) { .span-2 { grid-column: span 1; } }
+  .bento-card:hover { border-color: var(--accent-primary); transform: translateY(-4px); }
+</style>
+<footer>
+  <div class="wrap">
+    <p>Return to <a href="index.html">Home</a> · Built with pastel vibes.</p>
+  </div>
+</footer>
+
+<script>
+  const themeBtn = document.getElementById('themeBtn');
+  const themeIcon = document.getElementById('themeIcon');
+  const root = document.documentElement;
+
+  const savedTheme = localStorage.getItem('portfolio-theme') || 'dark';
+  if (savedTheme === 'light') {
+    root.setAttribute('data-theme', 'light');
+    themeIcon.textContent = '🌙';
+  }
+
+  themeBtn.addEventListener('click', () => {
+    const current = root.getAttribute('data-theme');
+    if (current === 'light') {
+      root.removeAttribute('data-theme');
+      themeIcon.textContent = '🌸';
+      localStorage.setItem('portfolio-theme', 'dark');
+    } else {
+      root.setAttribute('data-theme', 'light');
+      themeIcon.textContent = '🌙';
+      localStorage.setItem('portfolio-theme', 'light');
+    }
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    root.style.setProperty('--mouse-x', `${e.clientX}px`);
+    root.style.setProperty('--mouse-y', `${e.clientY}px`);
+  });
+
+  const els = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  els.forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
