@@ -89,6 +89,11 @@
 
   /* PROJECT MASONRY/LIST STYLE */
   section{padding:80px 0;}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:36px;}
+  .sec-tag{font-family:var(--mono);font-size:12px;color:var(--accent-secondary);letter-spacing:1.5px;text-transform:uppercase;font-weight:600;}
+  .sec-title{font-family:var(--display);font-size:clamp(24px,3vw,32px);font-weight:600;}
+  .sec-rule{flex:1;height:1px;background:var(--line);}
+
   .projects-stack { display: flex; flex-direction: column; gap: 32px; }
 
   .project-card {
@@ -128,15 +133,28 @@
   .p-desc li::before { content: '🌸'; position: absolute; left: 0; top: 1px; font-size: 12px; }
   .p-desc li strong { color: var(--text); font-weight: 600; }
 
+  /* BENTO GRID (FOR LAB SECTION) */
+  .bento-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 20px; }
+  .bento-card { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 30px; transition: all 0.3s; }
+  .bento-card:hover { border-color: var(--accent-primary); transform: translateY(-4px); }
+  .card-label { font-family: var(--mono); font-size: 11px; color: var(--accent-secondary); margin-bottom: 8px; display: block;}
+  .card-title { font-family: var(--display); font-size: 20px; font-weight: 700; color: var(--text); }
+  .card-desc { font-size: 14px; color: var(--text-dim); margin-top: 6px; margin-bottom: 16px; line-height: 1.5; }
+  .card-badge { font-family: var(--mono); font-size: 12px; color: var(--accent-primary); display: inline-block; padding: 4px 10px; background: rgba(255, 143, 177, 0.1); border-radius: 6px;}
+
   footer{padding:80px 0 40px; text-align: center; font-family: var(--mono); font-size: 12px; color: var(--text-dim); border-top: 1px solid var(--line);}
   footer a { color: var(--accent-primary); text-decoration: underline;}
 
   .reveal{opacity:0;transform:translateY(24px);transition:all .7s cubic-bezier(0.16,1,0.3,1);}
   .reveal.in{opacity:1;transform:translateY(0);}
 
+  @media(max-width: 860px) {
+    .bento-grid { grid-template-columns: repeat(2, 1fr); }
+  }
   @media(max-width: 600px) {
     .project-card { padding: 24px; }
     .p-title { font-size: 20px; }
+    .bento-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -166,16 +184,15 @@
   <div class="wrap reveal">
     <div style="font-family:var(--mono); color:var(--accent-secondary); font-size:13px; margin-bottom:10px;">// THE WORKBOOK</div>
     <h1>Things I've built. <span>Systems I love.</span></h1>
-    <p class="sub-lede">Bridging the gap between heavy AI engineering models and friendly, practical web applications[cite: 1].</p>
+    <p class="sub-lede">Bridging the gap between heavy AI engineering models and friendly, practical web applications.</p>
   </div>
 </header>
 
-<section>
+<section style="border-bottom: 1px solid var(--line);">
   <div class="wrap">
     <div class="projects-stack">
 
       <!-- PROJECT 1: ENTERPRISE RAG -->
-      <!--[cite: 1] -->
       <div class="project-card reveal">
         <div class="p-top">
           <div class="p-title">Enterprise-Grade RAG System</div>
@@ -189,14 +206,13 @@
         </div>
 
         <ul class="p-desc">
-          <li>Architected a <strong>two-stage hybrid search pipeline</strong> combining dense BGE semantic vectors with sparse BM25 keyword matching, fused via a custom Reciprocal Rank Fusion (RRF) algorithm to maximize recall[cite: 1].</li>
-          <li>Integrated a local <strong>ms-marco Cross-Encoder neural reranker</strong> for deep token-level alignment, resorting candidate chunks before Gemini synthesis—surpassing standard cosine similarity in precision[cite: 1].</li>
-          <li>Enforced zero-hallucination outputs using <strong>Pydantic-modeled citations</strong> and engineered a custom regex chunk tracker that converts raw AI responses into verifiable citation objects with traceable source metadata[cite: 1].</li>
+          <li>Architected a <strong>two-stage hybrid search pipeline</strong> combining dense BGE semantic vectors with sparse BM25 keyword matching, fused via a custom Reciprocal Rank Fusion (RRF) algorithm to maximize recall.</li>
+          <li>Integrated a local <strong>ms-marco Cross-Encoder neural reranker</strong> for deep token-level alignment, resorting candidate chunks before Gemini synthesis—surpassing standard cosine similarity in precision.</li>
+          <li>Enforced zero-hallucination outputs using <strong>Pydantic-modeled citations</strong> and engineered a custom regex chunk tracker that converts raw AI responses into verifiable citation objects with traceable source metadata.</li>
         </ul>
       </div>
 
-      <!-- PROJECT 2: KRISHIMITR (HAS LIVE + GITHUB) -->
-      <!--[cite: 1] -->
+      <!-- PROJECT 2: KRISHIMITR -->
       <div class="project-card reveal">
         <div class="p-top">
           <div class="p-title">KrishiMitr — Smart Agriculture Platform</div>
@@ -211,14 +227,13 @@
         </div>
 
         <ul class="p-desc">
-          <li>Developed a real-time farmer advisory web platform utilizing live weather and agricultural news APIs, boosting everyday user engagement by <strong>~30%</strong>[cite: 1].</li>
-          <li>Implemented secure Firebase authentication featuring scalable, role-based user account management across distinct operational tiers[cite: 1].</li>
-          <li>Trained and integrated a custom <strong>YOLOv8 computer vision model</strong> for real-time crop disease detection—allowing farmers to simply scan a sick leaf and receive an instant AI diagnosis[cite: 1].</li>
+          <li>Developed a real-time farmer advisory web platform utilizing live weather and agricultural news APIs, boosting everyday user engagement by <strong>~30%</strong>.</li>
+          <li>Implemented secure Firebase authentication featuring scalable, role-based user account management across distinct operational tiers.</li>
+          <li>Trained and integrated a custom <strong>YOLOv8 computer vision model</strong> for real-time crop disease detection—allowing farmers to simply scan a sick leaf and receive an instant AI diagnosis.</li>
         </ul>
       </div>
 
       <!-- PROJECT 3: RECRUITAI -->
-      <!--[cite: 1] -->
       <div class="project-card reveal">
         <div class="p-top">
           <div class="p-title">RecruitAI — Talent Intelligence Platform</div>
@@ -232,14 +247,13 @@
         </div>
 
         <ul class="p-desc">
-          <li>Built an automated recruitment analytics platform that parses incoming candidate resumes and matches them against job descriptions using Gemini AI[cite: 1].</li>
-          <li>Engineered an <strong>ATS-style match scoring engine</strong> that calculates quantitative candidate fit and automatically generates tailored technical interview questions[cite: 1].</li>
-          <li>Designed a SQLite backend data store paired with interactive <strong>Streamlit + Plotly visual dashboards</strong> to monitor candidate pipelines and score distributions in real time[cite: 1].</li>
+          <li>Built an automated recruitment analytics platform that parses incoming candidate resumes and matches them against job descriptions using Gemini AI.</li>
+          <li>Engineered an <strong>ATS-style match scoring engine</strong> that calculates quantitative candidate fit and automatically generates tailored technical interview questions.</li>
+          <li>Designed a SQLite backend data store paired with interactive <strong>Streamlit + Plotly visual dashboards</strong> to monitor candidate pipelines and score distributions in real time.</li>
         </ul>
       </div>
 
       <!-- PROJECT 4: TOURLY -->
-      <!--[cite: 1] -->
       <div class="project-card reveal">
         <div class="p-top">
           <div class="p-title">Tourly — Travel Discovery Platform</div>
@@ -253,10 +267,46 @@
         </div>
 
         <ul class="p-desc">
-          <li>Built a responsive, fluid React UI seamlessly integrated with a MongoDB database for dynamic travel data collection and retrieval[cite: 1].</li>
-          <li>Designed a modular frontend component architecture engineered to easily support <strong>~2× future feature expansion</strong> and smooth backend integration[cite: 1].</li>
-          <li>Implemented clean RESTful data flows between the interface and database to collect and display travel information in real time[cite: 1].</li>
+          <li>Built a responsive, fluid React UI seamlessly integrated with a MongoDB database for dynamic travel data collection and retrieval.</li>
+          <li>Designed a modular frontend component architecture engineered to easily support <strong>~2× future feature expansion</strong> and smooth backend integration.</li>
+          <li>Implemented clean RESTful data flows between the interface and database to collect and display travel information in real time.</li>
         </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- NEW SECTION: THE LAB -->
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-tag">01 — The Lab: Brainstorming</span><div class="sec-rule"></div></div>
+    <p style="color:var(--text-dim); margin-bottom: 24px; max-width: 700px; font-size: 16px;" class="reveal">Concepts, architectures, and systems currently in my active research and wireframing pipeline.</p>
+    
+    <div class="bento-grid reveal">
+      
+      <!-- LAYERGEN AI -->
+      <div class="bento-card">
+        <span class="card-label">// CONCEPT_01</span>
+        <div class="card-title">LayerGen AI</div>
+        <p class="card-desc">While most image generation models produce flattened pixel outputs, creative workflows in UI/UX and graphic design rely heavily on editable elements. This project explores generating AI visuals with structured, editable layers to make them significantly more useful for professional environments.</p>
+        <span class="card-badge">Status: Research 🧪</span>
+      </div>
+
+      <!-- REVOGE -->
+      <div class="bento-card">
+        <span class="card-label">// CONCEPT_02</span>
+        <div class="card-title">ReVogue</div>
+        <p class="card-desc">A multi-vendor thrift store platform aimed at building a circular economy for sustainable fashion in India. Currently refining the underlying architecture to seamlessly connect local thrift stores with eco-conscious buyers.</p>
+        <span class="card-badge">Status: Iterating 👗</span>
+      </div>
+
+      <!-- SKILLTRAIL -->
+      <div class="bento-card">
+        <span class="card-label">// CONCEPT_03</span>
+        <div class="card-title">SkillTrail</div>
+        <p class="card-desc">A personal skill-tracking application designed to visualize my learning curves. I'm building this dashboard to document my progress and map out proficiency as I pick up new technical stacks and frameworks.</p>
+        <span class="card-badge">Status: Wireframing 🖋️</span>
       </div>
 
     </div>
